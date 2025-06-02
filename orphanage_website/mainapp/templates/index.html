@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OrphanCare - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url("{% static 'our-orphan-children.jpg'%}") no-repeat center center/cover;
+      height: 100vh;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+   h1 {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.6); /* dark background for better visibility */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  
+  /* Gradient-colored text */
+  background-image: linear-gradient(90deg, #fcfc0b, #09dfee, #ff007b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+    .quote {
+      font-size: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      max-width: 700px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      margin-bottom: 30px;
+    }
+
+    .nav-buttons a {
+      text-decoration: none;
+      background: #ffffff;
+      color: #000;
+      padding: 12px 25px;
+      border-radius: 8px;
+      margin: 0 10px;
+      font-weight: bold;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s;
+    }
+
+    .nav-buttons a:hover {
+      background: #f39c12;
+    }
+  </style>
+</head>
+<body>
+  <h1>OrphanCare – Bringing Hope to Children</h1>
+  <div class="quote">“The smallest act of kindness is worth more than the grandest intention.”</div>
+
+  <div class="nav-buttons">
+    <a href="{% url 'about'%}">AboutUs</a>
+    <a href="{% url 'donation'%}">Donate</a>
+    <a href="{% url 'requirements'%}">Requirements</a>
+    <a href="{% url 'sponsorship'%}">Sponsorship</a>
+  </div>
+</body>
+</html>

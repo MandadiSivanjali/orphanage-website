@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meal Donation</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url("{% static 'bg.jpg' %}") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 40px;
+      margin: 60px auto;
+      max-width: 500px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    label, input, select {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .radio-group label {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .scanner {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .scanner img {
+      width: 200px;
+      border: 4px solid white;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Meal Donation</h1>
+
+    <label for="date">Select Date:</label>
+    <input type="date" id="date" />
+
+    <div class="radio-group">
+      <label><input type="radio" name="meal" value="breakfast"> Breakfast</label>
+      <label><input type="radio" name="meal" value="lunch"> Lunch</label>
+      <label><input type="radio" name="meal" value="dinner"> Dinner</label>
+      <label><input type="radio" name="meal" value="fullday"> Full Day</label>
+    </div>
+
+    <button id="checkBtn">Check Availability</button>
+    <button id="payBtn" disabled>Pay & Confirm</button>
+
+    <div class="scanner" id="scanner">
+      <p>Scan to Pay</p>
+      <img src="{% static 'scanner.jpg' %}" alt="UPI Scanner" />
+    </div>
+  </div>
+
+  <script>
+  const checkBtn = document.getElementById("checkBtn");
+  const payBtn = document.getElementById("payBtn");
+  const scanner = document.getElementById("scanner");
+
+  let slotAvailable = false;
+  let date = '';
+  let mealType = '';
+
+  checkBtn.addEventListener("click", () => {
+    date = document.getElementById("date").value;
+    mealType = document.querySelector('input[name="meal"]:checked')?.value;
+
+    if (!date || !mealType) {
+      alert("Please select a date and meal type.");
+      return;
+    }
+
+    fetch('http://127.0.0.1:8000/check-slot/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ date, mealType })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.available) {
+        alert("Slot is available! Proceed to payment.");
+        payBtn.disabled = false;
+        slotAvailable = true;
+      } else {
+        alert("Sorry, this slot is already booked.");
+        payBtn.disabled = true;
+        slotAvailable = false;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Server error occurred.");
+    });
+  });
+
+  payBtn.addEventListener("click", () => {
+    if (!slotAvailable) {
+      alert("Please check slot availability first.");
+      return;
+    }
+
+    // Show scanner first before confirmation
+    scanner.style.display = "block";
+
+    // Now ask for confirmation AFTER scanner is visible
+    setTimeout(() => {
+      const confirmed = confirm("Have you completed the payment by scanning the QR code?");
+
+      if (confirmed) {
+        fetch('http://127.0.0.1:8000/confirm-booking/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ date, slot: mealType })
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.message);
+          scanner.style.display = "none";
+          payBtn.disabled = true;
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Failed to save booking.");
+        });
+      } else {
+        alert("Booking not confirmed. Please complete the payment.");
+      }
+    }, 500); // Small delay to allow scanner to appear before prompt
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Our Orphanage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+
+    header {
+      background-color: #ff6a00;
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 10px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff6a00;
+    }
+
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      width: 300px;
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card p {
+      padding: 15px;
+    }
+
+    .map {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .map iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+      border-radius: 12px;
+    }
+
+    .contact {
+      background-color: #fff;
+      padding: 30px;
+      margin-top: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .contact h3 {
+      color: #ff6a00;
+      margin-bottom: 15px;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>About Our Orphanage</h1>
+  </header>
+
+  <nav>
+    <a href="{% url 'index'%}">Home</a>
+    <a href="{% url 'donation'%}">Meal Donation</a>
+    <a href="{% url 'requirements'%}">Requirements</a>
+    <a href="{% url 'sponsorship'%}">Sponsorship</a>
+  </nav>
+
+  <div class="container">
+    <h2>Our Mission</h2>
+    <p style="text-align:center;">
+      We are dedicated to providing a safe and nurturing environment for orphans in Madanapalle. Our mission is to educate, empower, and provide a better life for children who have no one else.
+    </p>
+
+    <h2>What We Do</h2>
+    <div class="content">
+      <div class="card">
+        <img src="{% static 'about1.jpeg'%}" alt="Educating children">
+        <p>We ensure every child receives quality education and emotional support to grow into responsible adults.</p>
+      </div>
+      <div class="card">
+        <img src="{% static 'about2.webp'%}" alt="Meal donations">
+        <p>We accept meal donations on special occasions like birthdays, anniversaries, or memorial days.</p>
+      </div>
+      <div class="card">
+        <img src="{% static 'about3.jpg'%}" alt="Sponsorships">
+        <p>Some kind individuals sponsor children’s education, health, and living. Many are still awaiting sponsors.</p>
+      </div>
+    </div>
+
+    <h2>Location</h2>
+    <div class="map">
+      <!-- Replace the src below with your exact Google Maps embed link -->
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.245197909593!2d78.4995422750876!3d13.558591002174577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb2d8168c1ec4ef%3A0x7a77e57b0ff1f6ea!2sMadanapalle%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1716365478123!5m2!1sen!2sin"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+
+    <div class="contact">
+      <h3>Contact Us</h3>
+      <p><strong>Phone:</strong> +91-9876543210</p>
+      <p><strong>Email:</strong> orphanagehelp@example.com</p>
+      <p><strong>Address:</strong> Near Bus Stand, Madanapalle, Andhra Pradesh, India</p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 OrphanCare | All Rights Reserved
+  </footer>
+</body>
+</html>

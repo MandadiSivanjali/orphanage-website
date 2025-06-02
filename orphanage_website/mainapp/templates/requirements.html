@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requirements - Orphanage</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('{% static "banner.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            margin: 60px auto;
+            width: 80%;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #1e3d59;
+        }
+
+        .requirement-box {
+            background-color: #fdf6f6;
+            color: #000;
+            padding: 15px 20px;
+            margin: 15px auto;
+            width: 70%;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-button {
+            margin-top: 30px;
+        }
+
+        .add-button button {
+            padding: 12px 30px;
+            background-color: #28a745;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .add-button button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>General Requirements</h2>
+
+        {% if requirements %}
+            {% for req in requirements %}
+                <div class="requirement-box">
+                    <p><strong>Item:</strong> {{ req.item }}</p>
+                    <p><strong>Quantity:</strong> {{ req.quantity }}</p>
+                    {% if req.note %}
+                        <p><strong>Note:</strong> {{ req.note }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No requirements listed yet.</p>
+        {% endif %}
+
+    </div>
+</body>
+</html>

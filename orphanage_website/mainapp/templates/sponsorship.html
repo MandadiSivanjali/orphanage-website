@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sponsorship</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("{% static 'sponsor.jpeg' %}") no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.3); /* semi-transparent white */
+            width: 80%;
+            margin: 60px auto;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .child-card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.4); /* semi-transparent white */
+            width: 60%;
+        }
+
+        .sponsor-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .sponsor-form {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .sponsor-form input {
+            padding: 10px;
+            margin: 5px;
+            width: 80%;
+        }
+
+        .sponsor-form button {
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function showForm(id) {
+            document.getElementById('form-' + id).style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Meet Our Children</h2>
+
+        {% if children %}
+            {% for child in children %}
+                <div class="child-card">
+                    <h3>{{ child.name }}</h3>
+                    <p>Age: {{ child.age }}</p>
+                    <p>Education: {{ child.education }}</p>
+                    <p>Status: 
+                        {% if child.has_sponsor %}
+                            <strong style="color: green;">Sponsored ✅</strong>
+                        {% else %}
+                            <strong style="color: red;">Not Sponsored ❌</strong>
+                        {% endif %}
+                    </p>
+
+                    {% if not child.has_sponsor %}
+                        <button class="sponsor-button" onclick="showForm('{{ child.id }}')">Be a Sponsor</button>
+                        <form method="POST" action="{% url 'sponsor_child' child.id %}" class="sponsor-form" id="form-{{ child.id }}">
+                            {% csrf_token %}
+                            <input type="text" name="sponsor_name" placeholder="Your Name" required><br>
+                            <input type="email" name="email" placeholder="Email" required><br>
+                            <input type="text" name="phone" placeholder="Phone" required><br>
+                            <button type="submit">Submit</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No children registered yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
